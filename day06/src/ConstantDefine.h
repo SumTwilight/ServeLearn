@@ -1,0 +1,10 @@
+#ifndef CONSTANT_DEFINE
+#define CONSTANT_DEFINE
+
+#define BUFFER_SIZE 1024
+
+#define MAX_EVENTS 1000
+
+#define INVALID_SOCKET -1
+
+#endif
