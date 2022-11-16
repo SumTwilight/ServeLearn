@@ -1,11 +1,11 @@
 #include "Socket.h"
 #include "InetAddress.h"
 #include "util.h"
-#include "ConstantDefine.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/socket.h>
 
+#include "ConstantDefine.h"
 
 
 Socket::Socket():fd(INVALID_SOCKET)

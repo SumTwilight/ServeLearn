@@ -10,11 +10,10 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <unistd.h>
-#include "util.h"
+#include "src/util.h"
+
 #include "ConstantDefine.h"
 
-
-using namespace std;
 
 int main(void){
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);

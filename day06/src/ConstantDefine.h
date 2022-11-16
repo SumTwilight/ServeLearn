@@ -3,6 +3,8 @@
 
 #define BUFFER_SIZE 1024
 
+#define READ_BUFFER_SIZE 1024
+
 #define MAX_EVENTS 1000
 
 #define INVALID_SOCKET -1
