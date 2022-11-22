@@ -17,7 +17,7 @@ void Channel::handleEvent()
 void Channel::enableReading()
 {
     events = EPOLLIN | EPOLLET;
-    ep->updateChannel(this);
+    loop->updateChannel(this);
 }
 
 int Channel::getFd()

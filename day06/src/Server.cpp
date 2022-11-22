@@ -18,7 +18,7 @@ Server::Server(EventLoop *_loop): loop(_loop)
     serv_sock->setnonblocking();
 
     Channel *servChannel = new Channel(loop, serv_sock->getFd());
-    std::functiona<void()> cb = std::bind(&Server::newConnection, this, serv_sock);
+    std::function<void()> cb = std::bind(&Server::newConnection, this, serv_sock);
     servChannel->setCallback(cb);
     servChannel->enableReading();
 
@@ -41,7 +41,7 @@ void Server::handleReadEvent(int sockfd)
             printf("message from client fd %d: %s\n", sockfd, buf);
             write(sockfd, buf, sizeof(buf));
         }
-        else if(bytes_read == INVALID_SOCKET && error == EINTR)
+        else if(bytes_read == INVALID_SOCKET && perror == EINTR)
         {
             printf("continue reading/n");
             continue;
