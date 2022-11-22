@@ -1,4 +1,3 @@
-#include <error.h>
 #include <functional>
 #include <string.h>
 #include <unistd.h>
@@ -42,12 +41,12 @@ void Server::handleReadEvent(int sockfd)
             printf("message from client fd %d: %s\n", sockfd, buf);
             write(sockfd, buf, sizeof(buf));
         }
-        else if(bytes_read == INVALID_SOCKET && error == EINTR)
+        else if(bytes_read == INVALID_SOCKET && errno == EINTR)
         {
             printf("continue reading/n");
             continue;
         }
-        else if(bytes_read == INVALID_SOCKET && ((error == EAGAIN) || (error == EWOULDBLOCK)))
+        else if(bytes_read == INVALID_SOCKET && ((errno == EAGAIN) || (errno == EWOULDBLOCK)))
         {
             printf("finish reading once, errno: %d/n", errno);
             break;
@@ -65,7 +64,7 @@ void Server::newConnection(Socket *serv_sock)
 {
     InetAddress *clnt_addr = new InetAddress(); //会发生内存泄漏！ 没有delete
     Socket *clnt_sock = new Socket(serv_sock->accept(clnt_addr)); // 会发生内存泄漏
-    printf("new connection fd %d ! IP: %s Port: %d\n", clnt_sock->getFd(), inet_ntoa(clnt_addr->addr.sin_addr), ntohs(clnt_addr->sin_port));
+    printf("new connection fd %d ! IP: %s Port: %d\n", clnt_sock->getFd(), inet_ntoa(clnt_addr->addr.sin_addr), ntohs(clnt_addr->addr.sin_port));
     clnt_sock->setnonblocking();
     Channel *clntChannel = new Channel(loop, clnt_sock->getFd());
     std::function<void()> cb = std::bind(&Server::handleReadEvent, this, clnt_sock->getFd());

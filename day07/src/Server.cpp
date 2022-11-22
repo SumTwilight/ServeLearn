@@ -33,12 +33,12 @@ void Server::handleReadEvent(int sockfd)
             printf("message from client fd %d: %s\n", sockfd, buf);
             write(sockfd, buf, sizeof(buf));
         }
-        else if(bytes_read == INVALID_SOCKET && error == EINTR)
+        else if(bytes_read == INVALID_SOCKET && errno == EINTR)
         {
             printf("continue reading/n");
             continue;
         }
-        else if(bytes_read == INVALID_SOCKET && ((error == EAGAIN) || (error == EWOULDBLOCK)))
+        else if(bytes_read == INVALID_SOCKET && ((errno == EAGAIN) || (errno == EWOULDBLOCK)))
         {
             printf("finish reading once, errno: %d/n", errno);
             break;
