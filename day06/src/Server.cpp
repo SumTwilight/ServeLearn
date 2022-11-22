@@ -18,7 +18,7 @@ Server::Server(EventLoop *_loop): loop(_loop)
     serv_sock->setnonblocking();
 
     Channel *servChannel = new Channel(loop, serv_sock->getFd());
-    std::functional<void()> cb = std::bind(&Server::newConnection, this, serv_sock);
+    std::functiona<void()> cb = std::bind(&Server::newConnection, this, serv_sock);
     servChannel->setCallback(cb);
     servChannel->enableReading();
 
@@ -53,7 +53,7 @@ void Server::handleReadEvent(int sockfd)
         }
         else if(bytes_read == 0) // EOF, 客户端断开连接
         {
-            printf("EOF, client fd %d disconnected\n", sockfd)
+            printf("EOF, client fd %d disconnected\n", sockfd);
             close(sockfd); // 关闭socket会自动将文件描述符从epoll树上移除
             break;
         }
@@ -64,7 +64,7 @@ void Server::newConnection(Socket *serv_sock)
 {
     InetAddress *clnt_addr = new InetAddress(); //会发生内存泄漏！ 没有delete
     Socket *clnt_sock = new Socket(serv_sock->accept(clnt_addr)); // 会发生内存泄漏
-    printf("new connection fd %d ! IP: %s Port: %d\n", sockfd, clnt_addr->getFd(), inet_ntoa(clnt_addr->addr.sin_addr));
+    printf("new connection fd %d ! IP: %s Port: %d\n", clnt_sock->getFd(), inet_ntoa(clnt_addr->addr.sin_addr), ntohs(clnt_addr.sin_port));
     clnt_sock->setnonblocking();
     Channel *clntChannel = new Channel(loop, clnt_sock->getFd());
     std::function<void()> cb = std::bind(&Server::handleReadEvent, this, clnt_sock->getFd());
